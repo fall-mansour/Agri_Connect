@@ -1,0 +1,244 @@
+// Variables de couleurs
+$primary-green: #2d6a4f; // Vert profond moderne
+$light-green: #d8f3dc; // Vert très clair pour les fonds
+$accent-green: #95d5b2; // Vert moyen pour les badges
+$text-dark: #1b4332; // Texte sombre contrasté
+$white: #ffffff;
+$bg-body: #f8f9fa;
+$shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+.page-wrapper {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: $bg-body;
+  min-height: 100vh;
+}
+
+// --- HEADER ---
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: $white;
+  box-shadow: $shadow;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .logo h1 {
+    color: $primary-green;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+
+  .search-bar {
+    display: flex;
+    flex: 0 1 400px;
+    background: $bg-body;
+    border-radius: 50px;
+    padding: 5px 15px;
+    border: 1px solid #e0e0e0;
+
+    input {
+      border: none;
+      background: transparent;
+      width: 100%;
+      padding: 8px;
+      outline: none;
+    }
+  }
+
+  .login-link {
+    text-decoration: none;
+    color: $primary-green;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// --- MAIN CONTENT ---
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 5%;
+
+  .intro {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h2 {
+      color: $text-dark;
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: #666;
+    }
+  }
+}
+
+// --- GRID & CARDS ---
+.farmer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.farmer-card {
+  background: $white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: $shadow;
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(45, 106, 79, 0.15);
+  }
+
+  .card-image {
+    position: relative;
+    height: 180px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .culture-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: $primary-green;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+  }
+
+  .card-details {
+    padding: 1.5rem;
+
+    .farmer-name {
+      margin: 0 0 0.5rem 0;
+      color: $text-dark;
+      font-size: 1.25rem;
+    }
+
+    .location {
+      color: #777;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .description {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.4;
+      margin-bottom: 1.2rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; // Limite à 2 lignes pour garder les cartes uniformes
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .pricing-info {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 1rem;
+
+      .price-item {
+        display: flex;
+        flex-direction: column;
+
+        .label {
+          font-size: 0.75rem;
+          color: #999;
+          text-transform: uppercase;
+        }
+        .value {
+          font-weight: 700;
+          color: $primary-green;
+        }
+      }
+    }
+  }
+
+  .card-footer {
+    padding: 0 1.5rem 1.5rem;
+
+    .btn-details {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: $light-green;
+      color: $primary-green;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: $primary-green;
+        color: $white;
+      }
+    }
+  }
+}
+
+// --- FOOTER ---
+.app-footer {
+  background: $text-dark;
+  color: $white;
+  padding: 3rem 5% 1rem;
+  margin-top: 5rem;
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    h4 {
+      color: $accent-green;
+      margin-bottom: 1.2rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        margin-bottom: 8px;
+        a {
+          color: #adb5bd;
+          text-decoration: none;
+          &:hover {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #adb5bd;
+  }
+}
