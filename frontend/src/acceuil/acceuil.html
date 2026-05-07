@@ -1,0 +1,91 @@
+<!-- Structure de la page d'accueil AgriConnect -->
+<div class="page-wrapper">
+  <!-- EN-TÊTE : Titre, Recherche et Connexion -->
+  <header class="app-header">
+    <div class="logo">
+      <h1>AgriConnect</h1>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Rechercher une culture, un lieu..." aria-label="Recherche" />
+      <button type="button">
+        <i class="search-icon">🔍</i>
+      </button>
+    </div>
+
+    <div class="user-actions">
+      <a href="/connexion" class="login-link">
+        <span class="icon">👤</span>
+        <span class="text">Connexion</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- CORPS : Grille de cartes des agriculteurs -->
+  <main class="content-container">
+    <section class="intro">
+      <h2>La technologie au service de l'agriculture</h2>
+      <p>Découvrez les produits disponibles près de chez vous au meilleur prix.</p>
+    </section>
+
+    <div class="farmer-grid">
+      <!-- Boucle Angular sur les agriculteurs du service -->
+      <article class="farmer-card" *ngFor="let agri of listeDesAgriculteurs">
+        <div class="card-image">
+          <img [src]="agri.imageUrl" [alt]="'Récolte de ' + agri.typeCulture" />
+          <div class="culture-badge">{{ agri.typeCulture }}</div>
+        </div>
+
+        <div class="card-details">
+          <h3 class="farmer-name">{{ agri.prenom }} {{ agri.nom }}</h3>
+          <p class="location"><span class="icon">📍</span> {{ agri.localisation }}</p>
+
+          <p class="description" *ngIf="agri.description">
+            {{ agri.description }}
+          </p>
+
+          <div class="pricing-info">
+            <div class="price-item">
+              <span class="label">Prix au kilo</span>
+              <span class="value">{{ agri.prixKilo }} FCFA</span>
+            </div>
+            <div class="price-item">
+              <span class="label">Prix à l'hectare</span>
+              <span class="value">{{ agri.prixHectare }} FCFA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="btn-details">Voir les détails</button>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- PIED DE PAGE : Infos et liens -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>AgriConnect</h4>
+        <p>Relier les producteurs et les acheteurs en un clic.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Liens utiles</h4>
+        <ul>
+          <li><a href="#">À propos</a></li>
+          <li><a href="#">Aide & Support</a></li>
+          <li><a href="#">Conditions d'utilisation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>AgriConnect Dakar, Sénégal</p>
+        <p>Email: contact@agriconnect.sn</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 AgriConnect - Tous droits réservés</p>
+    </div>
+  </footer>
+</div>
