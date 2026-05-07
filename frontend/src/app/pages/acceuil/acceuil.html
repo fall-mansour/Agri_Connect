@@ -14,7 +14,7 @@
     </div>
 
     <div class="user-actions">
-      <a href="/connexion" class="login-link">
+      <a routerLink="/login" class="login-link">
         <span class="icon">👤</span>
         <span class="text">Connexion</span>
       </a>
@@ -43,6 +43,8 @@
           <p class="description" *ngIf="agri.description">
             {{ agri.description }}
           </p>
+
+          <p class="telephone" *ngIf="agri.telephone">📞 {{ agri.telephone }}</p>
 
           <div class="pricing-info">
             <div class="price-item">
