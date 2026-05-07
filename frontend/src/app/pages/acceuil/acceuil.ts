@@ -1,12 +1,13 @@
-import { AgriculteursService } from '../agriculteurs';
+import { AgriculteursService } from '../../../agriculteurs';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Important pour le *ngFor
-import { Agriculteur } from '../agriculteurs'; // Assure-toi que le chemin est correct
+import { Agriculteur } from '../../../agriculteurs';
+import { RouterLink } from '@angular/router'; // Assure-toi que le chemin est correct
 
 @Component({
   selector: 'app-acceuil',
   standalone: true, // Puisque tu utilises "imports: []", tu es probablement en mode Standalone
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './acceuil.html',
   styleUrl: './acceuil.scss',
 })

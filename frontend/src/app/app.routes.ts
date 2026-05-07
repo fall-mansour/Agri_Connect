@@ -1,13 +1,24 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
-import { Acceuil } from '../acceuil/acceuil';
+import { Acceuil } from './pages/acceuil/acceuil';
 
 export const routes: Routes = [
-  { path: '',component: Acceuil},
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: '',
+    component: Acceuil,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  // Optionnel : redirection si la page n'existe pas
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
-
-
-export const routes: Routes = [{ path: '', component: Acceuil }];
