@@ -1,0 +1,121 @@
+<div class="page-wrapper">
+  <header class="app-header">
+    <div class="logo">
+      <h1>Agri_Connect</h1>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Rechercher un centre, un lieu..." aria-label="Recherche" />
+      <button type="button">
+        <i class="search-icon">🔍</i>
+      </button>
+    </div>
+
+    <div class="user-actions">
+      <a href="/login" class="login-link">
+        <span class="icon">👤</span>
+        <span class="text">Connexion</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="content-container">
+    <section class="intro">
+      <h2>Espaces de Stockage & Conservation</h2>
+      <p>
+        Découvrez les centres disponibles pour sécuriser vos récoltes dans les meilleures
+        conditions.
+      </p>
+    </section>
+
+    <div class="farmer-grid">
+      <article class="farmer-card" *ngFor="let centre of listeDesCentres">
+        <div class="card-image">
+          <img
+            *ngIf="centre.nom_centre.includes('Pout')"
+            src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=600"
+            [alt]="centre.nom_centre"
+          />
+          <img
+            *ngIf="centre.nom_centre.includes('Sangalkam')"
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=600"
+            [alt]="centre.nom_centre"
+          />
+          <img
+            *ngIf="centre.nom_centre.includes('Ndioum')"
+            src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=600"
+            [alt]="centre.nom_centre"
+          />
+
+          <div
+            class="culture-badge"
+            [style.background-color]="centre.etat === 'disponible' ? '#2ecc71' : '#e74c3c'"
+          >
+            {{ centre.etat | uppercase }}
+          </div>
+        </div>
+
+        <div class="card-details">
+          <h3 class="farmer-name">{{ centre.nom_centre }}</h3>
+
+          <p class="location"><span class="icon">📍</span> {{ centre.localisation }}</p>
+
+          <p class="description" *ngIf="centre.description">
+            {{ centre.description }}
+          </p>
+
+          <p class="telephone" *ngIf="centre.utilisateur_id">
+            👤 Gestionnaire affecté : Réf #00{{ centre.utilisateur_id }}
+          </p>
+
+          <div class="pricing-info">
+            <div class="price-item">
+              <span class="label">Capacité totale</span>
+              <span class="value">{{ centre.capacite }} Tonnes</span>
+            </div>
+            <div class="price-item">
+              <span class="label">Disponibilité</span>
+              <span
+                class="value"
+                [style.color]="centre.etat === 'disponible' ? '#2ecc71' : '#e74c3c'"
+              >
+                {{ centre.etat === 'disponible' ? 'Libre' : 'Occupé' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="btn-details" [disabled]="centre.etat === 'réservé'">
+            {{ centre.etat === 'disponible' ? 'Réserver un espace' : 'Complet' }}
+          </button>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>AgriConnect</h4>
+        <p>Relier les producteurs et les acheteurs en un clic.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Liens utiles</h4>
+        <ul>
+          <li><a href="#">À propos</a></li>
+          <li><a href="#">Aide & Support</a></li>
+          <li><a href="#">Conditions d'utilisation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>AgriConnect Dakar, Sénégal</p>
+        <p>Email: contact@agriconnect.sn</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 AgriConnect - Tous droits réservés</p>
+    </div>
+  </footer>
+</div>

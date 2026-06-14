@@ -1,28 +1,49 @@
+// src/app/pages/accueil/accueil.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CultureService } from '../../../agriculteurs'; // Assure-toi que le chemin est correct
+import { FormsModule } from '@angular/forms';
+import { CultureService } from '../../../agriculteurs';
+import { AuthService } from '../../../auth-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-accueil',
   templateUrl: './acceuil.html',
   styleUrl: './acceuil.scss',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
 })
 export class AccueilComponent implements OnInit {
-  // 1. On renomme la variable pour l'aligner avec le *ngFor du HTML
   listeDesAgriculteurs: any[] = [];
+  termeRecherche: string = '';
 
-  constructor(private cultureService: CultureService) {}
+  // Variable observable qui contiendra l'utilisateur s'il est connecté
+  currentUser$: Observable<any>;
+
+  constructor(
+    private cultureService: CultureService,
+    private authService: AuthService, // <-- Injection ici
+  ) {
+    this.currentUser$ = this.authService.user$;
+  }
 
   ngOnInit(): void {
     this.cultureService.getCultures().subscribe({
-      next: (data) => {
-        // 2. On alimente la bonne variable avec les données reçues de Laravel
-        this.listeDesAgriculteurs = data;
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des cultures', err);
-      },
+      next: (data) => (this.listeDesAgriculteurs = data),
+      error: (err) => console.error(err),
     });
+  }
+
+  get agriculteursFiltres(): any[] {
+    if (!this.termeRecherche.trim()) return this.listeDesAgriculteurs;
+    return this.listeDesAgriculteurs.filter(
+      (agri) =>
+        agri.description &&
+        agri.description.toLowerCase().includes(this.termeRecherche.toLowerCase()),
+    );
+  }
+
+  // Appel de la méthode de déconnexion
+  onLogout(): void {
+    this.authService.logout();
   }
 }
