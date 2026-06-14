@@ -14,7 +14,7 @@
     </div>
 
     <div class="user-actions">
-      <a routerLink="/login" class="login-link">
+      <a href="/login" class="login-link">
         <span class="icon">👤</span>
         <span class="text">Connexion</span>
       </a>
@@ -29,15 +29,14 @@
     </section>
 
     <div class="farmer-grid">
-      <!-- Boucle Angular sur les agriculteurs du service -->
       <article class="farmer-card" *ngFor="let agri of listeDesAgriculteurs">
         <div class="card-image">
-          <img [src]="agri.imageUrl" [alt]="'Récolte de ' + agri.typeCulture" />
-          <div class="culture-badge">{{ agri.typeCulture }}</div>
+          <img [src]="agri.image_url" [alt]="'Récolte de ' + agri.type_culture" />
+          <div class="culture-badge">{{ agri.type_culture }}</div>
         </div>
 
         <div class="card-details">
-          <h3 class="farmer-name">{{ agri.prenom }} {{ agri.nom }}</h3>
+          <h3 class="farmer-name">{{ agri.prenom_producteur }} {{ agri.nom_producteur }}</h3>
           <p class="location"><span class="icon">📍</span> {{ agri.localisation }}</p>
 
           <p class="description" *ngIf="agri.description">
@@ -49,11 +48,11 @@
           <div class="pricing-info">
             <div class="price-item">
               <span class="label">Prix au kilo</span>
-              <span class="value">{{ agri.prixKilo }} FCFA</span>
+              <span class="value">{{ agri.prix_kilo }} FCFA</span>
             </div>
             <div class="price-item">
               <span class="label">Prix à l'hectare</span>
-              <span class="value">{{ agri.prixHectare }} FCFA</span>
+              <span class="value">{{ agri.prix_hectare }} FCFA</span>
             </div>
           </div>
         </div>
