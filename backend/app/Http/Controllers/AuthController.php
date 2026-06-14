@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -26,9 +25,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+                'message' => 'L\'ancien mot de passe est incorrect.'
+            ], 401);
         }
 
         // 2. Insertion dans la base SQLite via le modèle User
@@ -44,10 +42,8 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'success' => true,
-            'message' => 'Compte créé avec succès !',
-            'user' => $user
-        ], 201);
+            'message' => 'Mot de passe modifié avec succès.'
+        ], 200);
     }
 
     // --- CONNEXION (TRAITEMENT REQUIS) ---
