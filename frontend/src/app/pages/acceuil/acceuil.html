@@ -1,27 +1,29 @@
-<!-- Structure de la page d'accueil AgriConnect -->
 <div class="page-wrapper">
-  <!-- EN-TÊTE : Titre, Recherche et Connexion -->
   <header class="app-header">
     <div class="logo">
       <h1>AgriConnect</h1>
     </div>
 
     <div class="search-bar">
-      <input type="text" placeholder="Rechercher une culture, un lieu..." aria-label="Recherche" />
+      <input
+        type="text"
+        placeholder="Rechercher par description..."
+        aria-label="Recherche"
+        [(ngModel)]="termeRecherche"
+      />
       <button type="button">
         <i class="search-icon">🔍</i>
       </button>
     </div>
 
     <div class="user-actions">
-      <a routerLink="/login" class="login-link">
+      <a href="/login" class="login-link">
         <span class="icon">👤</span>
         <span class="text">Connexion</span>
       </a>
     </div>
   </header>
 
-  <!-- CORPS : Grille de cartes des agriculteurs -->
   <main class="content-container">
     <section class="intro">
       <h2>La technologie au service de l'agriculture</h2>
@@ -29,7 +31,7 @@
     </section>
 
     <div class="farmer-grid">
-      <article class="farmer-card" *ngFor="let agri of listeDesAgriculteurs">
+      <article class="farmer-card" *ngFor="let agri of agriculteursFiltres">
         <div class="card-image">
           <img [src]="agri.image_url" [alt]="'Récolte de ' + agri.type_culture" />
           <div class="culture-badge">{{ agri.type_culture }}</div>
@@ -64,7 +66,6 @@
     </div>
   </main>
 
-  <!-- PIED DE PAGE : Infos et liens -->
   <footer class="app-footer">
     <div class="footer-content">
       <div class="footer-section">
