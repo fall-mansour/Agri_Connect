@@ -4,41 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // LOGIN
-    public function login(Request $request)
+    public function updatePassword(Request $request)
     {
+        // Validation des données
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'ancien_mot_de_passe' => 'required',
+            'nouveau_mot_de_passe' => 'required|min:8|confirmed',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = Auth::user();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        // Vérifier que l'ancien mot de passe est correct
+        if (!Hash::check($request->ancien_mot_de_passe, $user->password)) {
             return response()->json([
-                'message' => 'Identifiants incorrects'
+                'message' => 'L\'ancien mot de passe est incorrect.'
             ], 401);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Mettre à jour le mot de passe
+        $user->update([
+            'password' => Hash::make($request->nouveau_mot_de_passe)
+        ]);
 
         return response()->json([
-            'user' => $user,
-            'token' => $token
-        ]);
-    }
-
-    // LOGOUT
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json([
-            'message' => 'Déconnecté avec succès'
-        ]);
+            'message' => 'Mot de passe modifié avec succès.'
+        ], 200);
     }
 }
