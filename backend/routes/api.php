@@ -1,20 +1,29 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Api\AccueilController;
+use App\Http\Controllers\ProfileController;
 
-// route user sanctum
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+/*
+|--------------------------------------------------------------------------
+| ROUTE PUBLIQUE (LOGIN)
+|--------------------------------------------------------------------------
+*/
+Route::post('/login', [AuthController::class, 'login']);
 
-// routes publiques
-Route::post('/register', [AuthController::class, 'register']);
-Route::get('/cultures', [AccueilController::class, 'index']);
-
-// routes protégées
+/*
+|--------------------------------------------------------------------------
+| ROUTES PROTÉGÉES (AUTH SANCTUM)
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/update-password', [AuthController::class, 'updatePassword']);
+
+    // PROFIL UTILISATEUR
+    Route::get('/profile', [ProfileController::class, 'show']);
+
+    // MODIFIER PROFIL
+    Route::put('/profile', [ProfileController::class, 'update']);
+
+    // LOGOUT
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
