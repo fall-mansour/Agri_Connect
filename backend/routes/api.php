@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CentreConservationController;
+use App\Http\Controllers\Api\AccueilController;
 
 
 

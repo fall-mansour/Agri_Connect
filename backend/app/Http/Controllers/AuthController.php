@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -11,45 +12,55 @@ class AuthController extends Controller
     // --- INSCRIPTION ---
     public function register(Request $request)
     {
-        // 1. Validation des données reçues d'Angular
+        // 1. Validation alignée sur la table 'utilisateurs'
         $validator = Validator::make($request->all(), [
             'prenom' => 'required|string|max:255',
             'nom' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:utilisateurs,email', // <-- CORRIGÉ : unique sur utilisateurs
             'telephone' => 'required|string|max:50',
             'adresse' => 'required|string|max:255',
             'role' => 'required|string|in:agriculteur,acheteur,gestionnaire,mediateur',
-            'culture' => 'nullable|string|max:255',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'L\'ancien mot de passe est incorrect.'
-            ], 401);
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
         }
 
+<<<<<<< HEAD
         // 2. Insertion dans la base SQLite via le modèle User
+=======
+        // 2. Insertion via le modèle User (qui pointe vers 'utilisateurs')
+>>>>>>> feat: mises à jour auth backend et routes
         $user = User::create([
             'prenom' => $request->prenom,
             'nom' => $request->nom,
             'email' => $request->email,
             'telephone' => $request->telephone,
             'adresse' => $request->adresse,
+<<<<<<< HEAD
             'role' => $request->role,
             'culture' => $request->role === 'agriculteur' ? $request->culture : null,
             'password' => $request->password,
+=======
+            'statut' => $request->role, // <-- CORRIGÉ : On map 'role' vers la colonne 'statut'
+            'password' => $request->password, // Sera haché automatiquement via le cast du modèle
+>>>>>>> feat: mises à jour auth backend et routes
         ]);
 
         return response()->json([
-            'message' => 'Mot de passe modifié avec succès.'
-        ], 200);
+            'success' => true,
+            'message' => 'Compte créé avec succès !',
+            'user' => $user
+        ], 201);
     }
 
-    // --- CONNEXION (TRAITEMENT REQUIS) ---
+    // --- CONNEXION ---
     public function login(Request $request)
     {
-        // 1. Validation des identifiants saisis
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -62,18 +73,17 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // 2. Recherche de l'utilisateur par son email via le modèle User
+        // Recherche dans la table 'utilisateurs' via le modèle User
         $user = User::where('email', $request->email)->first();
 
-        // 3. Vérification des identifiants (Existence + correspondance du mot de passe haché)
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email ou mot de passe incorrect.'
-            ], 401); // 401 = Accès refusé
+            ], 401);
         }
 
-        // 4. Si tout concorde, on renvoie le profil (sans le mot de passe pour la sécurité)
+        // Renvoi de la réponse en remappant 'statut' en 'role' pour Angular
         return response()->json([
             'success' => true,
             'message' => 'Connexion réussie !',
@@ -82,9 +92,8 @@ class AuthController extends Controller
                 'prenom' => $user->prenom,
                 'nom' => $user->nom,
                 'email' => $user->email,
-                'role' => $user->role, // Utilisé par Angular pour la redirection cible
+                'role' => $user->statut, // <-- CORRIGÉ : On renvoie 'role' pour ne pas casser la redirection Angular
             ],
-            // Petit token fictif pour alimenter ton AuthService côté Angular
             'token' => 'agriconnect_session_' . bin2hex(random_bytes(32))
         ], 200);
     }
